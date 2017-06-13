@@ -22,4 +22,38 @@
  *****************************************************************************/
 
 #import <Foundation/Foundation.h>
+#import "DeviceLister.h"
 
+# include "logging/Logger.h"
+# include <vector>
+# include <iostream>
+
+#pragma mark - C++
+
+std::vector<std::tuple<std::string, std::string, bool>> medialibrary::fs::DeviceLister::devices() const
+{
+    std::vector<std::tuple<std::string, std::string, bool>> res;
+    NSArray *keys = [NSArray arrayWithObjects:NSURLVolumeUUIDStringKey, NSURLVolumeIsRemovableKey, nil];
+    NSArray *mountPoints = [[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:0];
+
+    if ( mountPoints.count == 0 )
+    {
+        LOG_WARN( "Failed to detect any mountpoint" );
+        return res;
+    }
+
+    for ( NSURL *url in mountPoints )
+    {
+        bool isRemovable;
+        std::string uuid;
+        NSString *tmp;
+        NSDictionary<NSURLResourceKey, id> *deviceInfo = [url resourceValuesForKeys:keys error:nil];
+
+        tmp = deviceInfo[NSURLVolumeUUIDStringKey];
+        uuid = ( tmp != nil ) ? [tmp UTF8String] : "";
+        isRemovable = ( ( NSNumber * )deviceInfo[NSURLVolumeIsRemovableKey] ).boolValue;
+
+        res.emplace_back( std::make_tuple( uuid, [[url absoluteString] UTF8String], isRemovable ) );
+    }
+    return res;
+}
