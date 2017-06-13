@@ -208,7 +208,7 @@ libmedialibrary_la_LIBADD = \
 	$(VLC_LIBS) 			\
 	$(NULL)
 
-libmedialibrary_la_LDFLAGS = -no-undefined -export-symbols-regex 'NewMediaLibrary'
+libmedialibrary_la_LDFLAGS = -no-undefined
 if HAVE_DARWIN
 libmedialibrary_la_LIBADD += libmedialibrary_macos.la
 libmedialibrary_la_LDFLAGS += -Wl,-undefined,dynamic_lookup,-framework,Foundation
