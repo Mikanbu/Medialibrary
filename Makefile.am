@@ -199,6 +199,7 @@ if HAVE_DARWIN
 libmedialibrary_macos_la_CPPFLAGS = $(libmedialibrary_la_CPPFLAGS)
 libmedialibrary_macos_la_SOURCES = \
 	src/filesystem/darwin/DeviceLister.mm \
+	src/filesystem/darwin/DeviceListerWrapper.mm \
 	$(NULL)
 endif
 endif
