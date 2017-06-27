@@ -212,7 +212,7 @@ libmedialibrary_la_LIBADD = \
 libmedialibrary_la_LDFLAGS = -no-undefined
 if HAVE_DARWIN
 libmedialibrary_la_LIBADD += libmedialibrary_macos.la
-libmedialibrary_la_LDFLAGS += -Wl,-undefined,dynamic_lookup,-framework,Foundation
+libmedialibrary_la_LDFLAGS += -Wl,-framework,Foundation,-lc++
 endif
 
 
@@ -331,6 +331,11 @@ samples_LDADD = 		\
 	$(PTHREAD_LIBS) 	\
 	$(SQLITE_LIBS)		\
 	$(NULL)
+
+if HAVE_DARWIN
+samples_LDFLAGS = -lc++
+unittest_LDFLAGS = -lc++
+endif
 
 endif
 
