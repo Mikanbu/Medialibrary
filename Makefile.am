@@ -333,8 +333,8 @@ samples_LDADD = 		\
 	$(NULL)
 
 if HAVE_DARWIN
-samples_LDFLAGS = -lc++
-unittest_LDFLAGS = -lc++
+samples_LDFLAGS = -Wl,-framework,Foundation,-lc++
+unittest_LDFLAGS = -Wl,-framework,Foundation,-lc++
 endif
 
 endif
